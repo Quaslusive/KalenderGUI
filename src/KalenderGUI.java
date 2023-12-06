@@ -19,7 +19,9 @@ public class KalenderGUI extends JFrame {
     KalenderGUI() {
         // Det är fortfarande svårt för mig att förstå hur de diverse layout manager funkar ihop och hur man effektivt
         // kan skapa flera Jpanel i samma frame.
-        panalMain = new JPanel(new GridLayout(0, 2)); // Column
+
+        //By making the days in columns instead of rows its easier for the user to skim through the days.
+        panalMain = new JPanel(new GridLayout(0, 7)); // Column
 
         // Deklarerar dagens datum och början av veckan
         LocalDate today = LocalDate.now();
@@ -32,28 +34,40 @@ public class KalenderGUI extends JFrame {
         String formattedToday = today.format(formatter);
 
         for (int i = 0; i < 7; i++) {
+            //Adding every day in their own JPanel and adding a border to better accentuate the days.
+            JPanel dayPanel = new JPanel();
+            dayPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+            dayPanel.setLayout(new GridLayout(4, 0));//4 rows evenly distribute the elements on dayPanel.
+
             LocalDate day = startOfWeek.plusDays(i); // Incrementer en dag
             dayLabels[i] = new JLabel(String.valueOf(day)); // Populärar elementen med datum
             if (day.equals(today)) { // Om en dag == med dagens datum, blir texten röd
                 Font fontCurrentDag = new Font(Font.SANS_SERIF, Font.BOLD, 20);
+                //dayLabels displays the corresponding days date
                 dayLabels[i].setFont(fontCurrentDag);
                 dayLabels[i].setForeground(Color.RED);
 
             }
+            //Maybe some more comment here about what does what?
+            //dayTexts displays your activity
             dayTexts[i] = new JTextArea();
             dayTexts[i].setEditable(false);
+            //Button which opens a JOptionPane that lets you insert an activity
             addButtons[i] = new JButton("Lägg till event");
             int finalI = i; //  Förslag från IntelliJ
             addButtons[i].addActionListener(e -> dayTexts[finalI].setText(JOptionPane.showInputDialog("Skriv in din event :) ")));
+            //Buttons to clear events form your dayTexts
             clearButtons[i] = new JButton("Ta bort event");
             clearButtons[i].addActionListener(e -> dayTexts[finalI].setText(""));
 
-            panalMain.add(dayLabels[i]);
-            panalMain.add(dayTexts[i]);
-            panalMain.add(addButtons[i]);
-            panalMain.add(clearButtons[i]);
+            //Adding all the elements to their corresponding dayPanel
+            dayPanel.add(dayLabels[i]);
+            dayPanel.add(dayTexts[i]);
+            dayPanel.add(addButtons[i]);
+            dayPanel.add(clearButtons[i]);
+            panalMain.add(dayPanel);
         }
-
+        //Adding all the new dayPanels to the frame and setting some values for the frame
         add(panalMain);
         setTitle("Veckans Kalender. Idag är det " + formattedToday);
         setSize(1000, 500);
