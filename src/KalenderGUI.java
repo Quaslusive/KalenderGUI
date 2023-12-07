@@ -11,12 +11,17 @@ Skriven av Carl Sundberg
 public class KalenderGUI extends JFrame {
 
     private final JTextArea[] dayTexts = new JTextArea[7];
+    JLabel[] dayLabels = new JLabel[7];
+    JButton[] addButtons = new JButton[7];
+    JButton[] clearButtons = new JButton[7];
+
+
 
     KalenderGUI() {
         // Det är fortfarande svårt för mig att förstå hur de diverse layout manager funkar ihop och hur man effektivt
         // kan skapa flera Jpanel i samma frame.
 
-        //By making the days in columns instead of rows its easier for the user to skim through the days.
+        //By making the days in columns instead of rows it's easier for the user to skim through the days.
         JPanel mainPanel = new JPanel(new GridLayout(0, 7)); // Column
 
         // Deklarerar dagens datum och början av veckan
@@ -38,26 +43,22 @@ public class KalenderGUI extends JFrame {
             JPanel bottomPanel = new JPanel(new GridLayout(2, 0));
 
             LocalDate day = startOfWeek.plusDays(i); // Incrementer en dag
-            JLabel[] dayLabels = new JLabel[7];
             dayLabels[i] = new JLabel(String.valueOf(day)); // Lägger in datum på elementen
             if (day.equals(today)) { // Om en dag == med dagens datum, blir texten röd
                 Font fontCurrentDag = new Font(Font.SANS_SERIF, Font.BOLD, 20);
                 //dayLabels displays the corresponding days date
                 dayLabels[i].setFont(fontCurrentDag);
                 dayLabels[i].setForeground(Color.RED);
-
             }
             //Maybe some more comment here about what does what?
             //dayTexts displays your activity
             dayTexts[i] = new JTextArea();
             dayTexts[i].setEditable(false);
             //Button which opens a JOptionPane that lets you insert an activity
-            JButton[] addButtons = new JButton[7];
             addButtons[i] = new JButton("Lägg till event");
-            int finalI = i; //  Förslag från IntelliJ
+            byte finalI = (byte) i;
             addButtons[i].addActionListener(e -> dayTexts[finalI].setText(JOptionPane.showInputDialog("Skriv in din event :) ")));
             //Buttons to clear events form your dayTexts
-            JButton[] clearButtons = new JButton[7];
             clearButtons[i] = new JButton("Ta bort event");
             clearButtons[i].addActionListener(e -> dayTexts[finalI].setText(""));
 
