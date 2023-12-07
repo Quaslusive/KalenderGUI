@@ -1,22 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 /*
-
 Skriven av Carl Sundberg
-
  */
-
 public class KalenderGUI extends JFrame {
 
     private final JTextArea[] dayTexts = new JTextArea[7];
     JLabel[] dayLabels = new JLabel[7];
     JButton[] addButtons = new JButton[7];
     JButton[] clearButtons = new JButton[7];
+
     KalenderGUI() {
         // Det är fortfarande svårt för mig att förstå hur de diverse layout manager funkar ihop och hur man effektivt
-        // kan skapa flera Jpanel i samma frame.
+        // kan skapa flera JPanel i samma frame.
 
         //By making the days in columns instead of rows it's easier for the user to skim through the days.
         JPanel mainPanel = new JPanel(new GridLayout(0, 7)); // Column
@@ -33,9 +33,8 @@ public class KalenderGUI extends JFrame {
 
         for (int i = 0; i < 7; i++) {
             //Adding every day in their own JPanel and adding a border to better accentuate the days.
-            JPanel dayPanel = new JPanel();
+            JPanel dayPanel = new JPanel(new BorderLayout());
             dayPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-            dayPanel.setLayout(new BorderLayout());
             //Adding a second panel to the bottom of the day and adding my buttons to it to further make the calendar more readable.
             JPanel bottomPanel = new JPanel(new GridLayout(2, 0));
 
@@ -59,7 +58,7 @@ public class KalenderGUI extends JFrame {
             clearButtons[i] = new JButton("Ta bort event");
             clearButtons[i].addActionListener(e -> dayTexts[finalI].setText(""));
 
-            //Adding all the elements to their corresponding dayPanel
+            //Adding all the elements to their corresponding dayPanels and bottomPanels then adding them to mainPanel
             dayPanel.add(dayLabels[i], BorderLayout.NORTH);
             dayPanel.add(dayTexts[i]);
             bottomPanel.add(addButtons[i]);
