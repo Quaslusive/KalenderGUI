@@ -14,9 +14,6 @@ public class KalenderGUI extends JFrame {
     JLabel[] dayLabels = new JLabel[7];
     JButton[] addButtons = new JButton[7];
     JButton[] clearButtons = new JButton[7];
-
-
-
     KalenderGUI() {
         // Det är fortfarande svårt för mig att förstå hur de diverse layout manager funkar ihop och hur man effektivt
         // kan skapa flera Jpanel i samma frame.
@@ -39,7 +36,7 @@ public class KalenderGUI extends JFrame {
             JPanel dayPanel = new JPanel();
             dayPanel.setBorder(BorderFactory.createLineBorder(Color.black, 2));
             dayPanel.setLayout(new BorderLayout());
-            //Adding a second panel to further make the calendar more readable.
+            //Adding a second panel to the bottom of the day and adding my buttons to it to further make the calendar more readable.
             JPanel bottomPanel = new JPanel(new GridLayout(2, 0));
 
             LocalDate day = startOfWeek.plusDays(i); // Incrementer en dag
